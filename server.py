@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException
+import uvicorn
 from sqlalchemy.orm import Session
 from schema.schemas import Aluno
 from infra.sqlalchemy.repositories.alunos import RepositorioAluno
@@ -51,3 +52,6 @@ def remover_aluno(id_aluno: int, db: Session = Depends(get_db)):
         return {"message": f"Estudante de ID {id_aluno} foi excluído com sucesso"}
     else:
         raise HTTPException(status_code=404, detail=f"Estudante com id {id_aluno} não encontrado")
+    
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
